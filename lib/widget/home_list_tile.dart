@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:json_test_project/models/Users.dart';
 
 class HomeListTile extends StatelessWidget {
+  final Users user;
+  HomeListTile(this.user);
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -12,41 +16,45 @@ class HomeListTile extends StatelessWidget {
               height: 100,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(24.0),
-                gradient: LinearGradient(
-                  colors: [Colors.lightBlue, Colors.black12],
-                  begin: Alignment.bottomRight,
-                  end: Alignment.topLeft,
-                ),
-                boxShadow: [
-                  BoxShadow(
-                      color: Colors.black12,
-                      blurRadius: 12,
-                      offset: Offset(0, 6)),
-                ],
+                color: Colors.blueAccent,
               ),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Center(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'UserName',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    CircleAvatar(
+                      radius: 30,
+                      backgroundColor: Colors.indigo,
+                      child: Center(
+                        child: Text(user.id.toString()),
                       ),
-                      Text(
-                        "Name",
-                        style: TextStyle(
-                            color: Colors.white70,
-                            fontSize: 25,
-                            fontWeight: FontWeight.normal),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Text(
+                            'UserName: ${user.username}',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            "Name: ${user.name}",
+                            style: TextStyle(
+                                color: Colors.white70,
+                                fontSize: 15,
+                                fontWeight: FontWeight.normal),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             )

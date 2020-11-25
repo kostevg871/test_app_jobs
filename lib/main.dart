@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:json_test_project/services/users_service.dart';
+import 'package:provider/provider.dart';
 
 import 'screen/home_screen.dart';
 
@@ -8,15 +10,22 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  final UserService userService = UserService();
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Test.app',
-      debugShowCheckedModeBanner: false,
-      home: Home(),
-      theme: ThemeData(
-        brightness: Brightness.light,
-        accentColor: Colors.indigo,
+    return FutureProvider(
+      create: (context) => userService.fetchUser(),
+      catchError: (context, error) {
+        print(error.toString());
+      },
+      child: MaterialApp(
+        title: 'Test.app',
+        debugShowCheckedModeBanner: false,
+        home: HomePage(),
+        theme: ThemeData(
+          brightness: Brightness.light,
+          accentColor: Colors.indigo,
+        ),
       ),
     );
   }
