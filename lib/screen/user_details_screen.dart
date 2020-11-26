@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:json_test_project/models/users.dart';
 import 'package:json_test_project/widget/user_details_screen/user_album_info.dart';
