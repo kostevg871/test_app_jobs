@@ -20,7 +20,7 @@ class UserDetailsPage extends StatelessWidget {
         child: Column(children: [
           UserInfoWidget(user),
           UserPostInfo(user),
-          UserAlbumsInfo(),
+          UserAlbumsInfo(user),
         ]),
       ),
     );

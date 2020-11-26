@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:json_test_project/models/albums.dart';
+import 'package:json_test_project/models/users.dart';
+import 'package:json_test_project/screen/user_albums_all_page.dart';
 import 'package:json_test_project/widget/user_details_screen/user_tile/user_albums_tile.dart';
 import 'package:provider/provider.dart';
 
 class UserAlbumsInfo extends StatelessWidget {
+  final Users users;
+
+  const UserAlbumsInfo(this.users);
+
   @override
   Widget build(BuildContext context) {
     final List<Albums> albums = Provider.of<List<Albums>>(context);
@@ -19,7 +25,15 @@ class UserAlbumsInfo extends StatelessWidget {
               Text('Albums user', style: title),
               RaisedButton(
                 child: Text("all albums"),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => UserAlbumAllPage(
+                                users: users,
+                                albums: albums,
+                              )));
+                },
                 textColor: Colors.white,
                 color: Colors.indigo,
               ),
