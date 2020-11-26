@@ -2,15 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:json_test_project/models/albums.dart';
 import 'package:json_test_project/models/photos.dart';
 import 'package:json_test_project/services/photo_services.dart';
+import 'package:json_test_project/widget/AlbumCarouselPhoto.dart';
+import 'package:json_test_project/widget/user_details_screen/user_tile/image_albums_tile.dart';
 import 'package:provider/provider.dart';
 
 class UserAlbumTile extends StatelessWidget {
   final Albums album;
+
   const UserAlbumTile(this.album);
 
   @override
   Widget build(BuildContext context) {
     final PhotoService photoService = PhotoService();
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
@@ -25,28 +29,57 @@ class UserAlbumTile extends StatelessWidget {
           catchError: (context, error) {
             print(error.toString());
           },
-          child: ListTile(
-            title: Text(album.title),
-            leading: ImageAlbumsTile(),
-            trailing: Text(album.id.toString()),
-          ),
+          child: AlbumsTile(album: album),
         ),
       ),
     );
   }
 }
 
-class ImageAlbumsTile extends StatelessWidget {
+class AlbumsTile extends StatelessWidget {
+  const AlbumsTile({@required this.album});
+
+  final Albums album;
+
   @override
   Widget build(BuildContext context) {
-    final List<Photos> photos = Provider.of<List<Photos>>(context);
-    return (photos == null)
-        ? CircularProgressIndicator()
-        :
-        // add photo and idPhoto
-        Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: Image.network(photos.last.thumbnailUrl),
-          );
+    final List<Photos> photo = Provider.of<List<Photos>>(context);
+    return Container(
+      child: GestureDetector(
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => DetailsAlbumsPage(album, photo)));
+        },
+        child: ListTile(
+          title: Text(album.title),
+          leading: ImageAlbumsTile(),
+          trailing: Text(album.id.toString()),
+        ),
+      ),
+    );
+  }
+}
+
+class DetailsAlbumsPage extends StatelessWidget {
+  final Albums albums;
+  final List<Photos> photos;
+
+  const DetailsAlbumsPage(this.albums, this.photos);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Number album ${albums.id.toString()}"),
+      ),
+      body: Builder(
+        builder: (context) {
+          final double height = MediaQuery.of(context).size.height;
+          return AlbumCarouselPhoto(height: height, photos: photos);
+        },
+      ),
+    );
   }
 }
