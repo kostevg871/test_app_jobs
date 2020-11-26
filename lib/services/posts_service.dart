@@ -9,7 +9,6 @@ class PostService {
     var url = "https://jsonplaceholder.typicode.com/posts?userId=$userId";
     var response = await client.get(url);
     if (response.statusCode == 200) {
-      print(response.body);
       return postsFromJson(response.body);
     } else {
       print("err");
