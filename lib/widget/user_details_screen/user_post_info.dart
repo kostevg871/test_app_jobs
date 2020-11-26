@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:json_test_project/models/posts.dart';
+import 'package:json_test_project/models/users.dart';
+import 'package:json_test_project/screen/user_post_all_page.dart';
 import 'package:json_test_project/widget/user_details_screen/user_tile/user_post_tile.dart';
 import 'package:provider/provider.dart';
 
 class UserPostInfo extends StatelessWidget {
+  final Users user;
+
+  const UserPostInfo(this.user);
+
   @override
   Widget build(BuildContext context) {
     final List<Posts> posts = Provider.of<List<Posts>>(context);
@@ -19,7 +25,13 @@ class UserPostInfo extends StatelessWidget {
               Text('Post user', style: title),
               RaisedButton(
                 child: Text("all post"),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => UserPostAllPage(posts, user)));
+                  // add UserPostAllPage();
+                },
                 textColor: Colors.white,
                 color: Colors.indigo,
               ),

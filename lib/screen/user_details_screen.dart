@@ -19,7 +19,7 @@ class UserDetailsPage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(children: [
           UserInfoWidget(user),
-          UserPostInfo(),
+          UserPostInfo(user),
           UserAlbumsInfo(),
         ]),
       ),
