@@ -4,10 +4,9 @@ import 'package:json_test_project/models/photos.dart';
 
 class AlbumCarouselPhoto extends StatelessWidget {
   const AlbumCarouselPhoto({
-    Key key,
     @required this.height,
     @required this.photos,
-  }) : super(key: key);
+  });
 
   final double height;
   final List<Photos> photos;

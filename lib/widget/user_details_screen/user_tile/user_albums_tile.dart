@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:json_test_project/models/albums.dart';
 import 'package:json_test_project/models/photos.dart';
+import 'package:json_test_project/screen/details_albums_page.dart';
 import 'package:json_test_project/services/photo_services.dart';
-import 'package:json_test_project/widget/AlbumCarouselPhoto.dart';
 import 'package:json_test_project/widget/user_details_screen/user_tile/image_albums_tile.dart';
 import 'package:provider/provider.dart';
 
@@ -57,28 +57,6 @@ class AlbumsTile extends StatelessWidget {
           leading: ImageAlbumsTile(),
           trailing: Text(album.id.toString()),
         ),
-      ),
-    );
-  }
-}
-
-class DetailsAlbumsPage extends StatelessWidget {
-  final Albums albums;
-  final List<Photos> photos;
-
-  const DetailsAlbumsPage(this.albums, this.photos);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Number album ${albums.id.toString()}"),
-      ),
-      body: Builder(
-        builder: (context) {
-          final double height = MediaQuery.of(context).size.height;
-          return AlbumCarouselPhoto(height: height, photos: photos);
-        },
       ),
     );
   }
