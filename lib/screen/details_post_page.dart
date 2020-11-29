@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:json_test_project/models/comments.dart';
 import 'package:json_test_project/models/posts.dart';
+import 'package:json_test_project/provider/add_comment_provider.dart';
+import 'package:json_test_project/services/add_comment_service.dart';
 import 'package:json_test_project/widget/details_post_page/custom_flut_button.dart';
 import 'package:json_test_project/widget/user_details_screen/user_tile/comment_tile.dart';
 import 'package:provider/provider.dart';
@@ -12,11 +14,22 @@ class DetailsPostPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //Provider.of<AddCommentProvider>(context, listen: false).syncDataWithProvider();
     final TextStyle titleStyle =
         TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
     final TextStyle subTitleStyle =
         TextStyle(fontSize: 15, fontWeight: FontWeight.normal);
     final List<Comments> comment = Provider.of<List<Comments>>(context);
+
+    // final AddCommentProvider addCommentProvider = AddCommentProvider();
+    final AddCommentProvider addComment =
+        Provider.of<AddCommentProvider>(context);
+    final addCommentPost = [];
+    for (var n in addComment.comment) {
+      if (n.postId == posts.id) {
+        addCommentPost.add(n);
+      }
+    }
     return Scaffold(
         appBar: AppBar(
           title: Text(" Number posts: ${posts.id.toString()}"),
@@ -31,6 +44,14 @@ class DetailsPostPage extends StatelessWidget {
                   subtitle: Text(posts.body, style: subTitleStyle),
                 ),
               ),
+              ListView.builder(
+                  reverse: true,
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: addCommentPost.length,
+                  itemBuilder: (context, index) {
+                    return CommentTile(addCommentPost[index]);
+                  }),
               (comment == null)
                   ? Center(child: CircularProgressIndicator())
                   : ListView.builder(
@@ -52,7 +73,7 @@ class DetailsPostPage extends StatelessWidget {
                 child: Container(
                   padding: EdgeInsets.only(
                       bottom: MediaQuery.of(context).viewInsets.bottom),
-                  child: AddCommentScreen(),
+                  child: AddCommentScreen(posts),
                 ),
               ),
             );
@@ -63,11 +84,30 @@ class DetailsPostPage extends StatelessWidget {
 }
 
 class AddCommentScreen extends StatelessWidget {
+  final Posts posts;
+
+  const AddCommentScreen(this.posts);
+
   @override
   Widget build(BuildContext context) {
-    String newCommentTitle;
-    String newCommentEmail;
-    String newCommentBody;
+    final AddCommentService addCommentService = AddCommentService();
+    final AddCommentProvider addCommentProvider = AddCommentProvider();
+    TextEditingController newCommentTitle = new TextEditingController();
+    TextEditingController newCommentEmail = new TextEditingController();
+    TextEditingController newCommentBody = new TextEditingController();
+
+    void onAdd() {
+      Comments commentsAdd = Comments(
+        postId: posts.id,
+        name: newCommentTitle.text,
+        email: newCommentEmail.text,
+        body: newCommentBody.text,
+      );
+
+      Provider.of<AddCommentProvider>(context, listen: false)
+          .addComment(commentsAdd);
+      Navigator.of(context).pop(true);
+    }
 
     return Container(
       color: Color(0xff757575),
@@ -89,26 +129,23 @@ class AddCommentScreen extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             TextField(
+              controller: newCommentTitle,
               obscureText: false,
               decoration: InputDecoration(
                 labelText: "Name",
               ),
               textAlign: TextAlign.center,
-              onChanged: (newText) {
-                newCommentTitle = newText;
-              },
             ),
             TextField(
+              controller: newCommentEmail,
               obscureText: false,
               decoration: InputDecoration(
                 labelText: "e-mail",
               ),
               textAlign: TextAlign.center,
-              onChanged: (newText) {
-                // newTaskTitle = newText;
-              },
             ),
             TextField(
+              controller: newCommentBody,
               maxLines: 2,
               maxLength: 255,
               obscureText: false,
@@ -116,15 +153,10 @@ class AddCommentScreen extends StatelessWidget {
                 labelText: "Comment",
               ),
               textAlign: TextAlign.center,
-              onChanged: (newText) {
-                newCommentTitle = newText;
-              },
             ),
             FlatButton(
               onPressed: () {
-                // Provider.of<TaskData>(context, listen: false)
-                //     .addTask(newTaskTitle);
-                // Navigator.pop(context);
+                onAdd();
               },
               child: Text(
                 "Add",
