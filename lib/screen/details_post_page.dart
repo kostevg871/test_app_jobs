@@ -14,17 +14,15 @@ class DetailsPostPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //Provider.of<AddCommentProvider>(context, listen: false).syncDataWithProvider();
     final TextStyle titleStyle =
         TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
     final TextStyle subTitleStyle =
         TextStyle(fontSize: 15, fontWeight: FontWeight.normal);
     final List<Comments> comment = Provider.of<List<Comments>>(context);
-
-    // final AddCommentProvider addCommentProvider = AddCommentProvider();
     final AddCommentProvider addComment =
         Provider.of<AddCommentProvider>(context);
     final addCommentPost = [];
+    Provider.of<AddCommentProvider>(context, listen: false).initialState();
     for (var n in addComment.comment) {
       if (n.postId == posts.id) {
         addCommentPost.add(n);
@@ -106,6 +104,8 @@ class AddCommentScreen extends StatelessWidget {
 
       Provider.of<AddCommentProvider>(context, listen: false)
           .addComment(commentsAdd);
+      Provider.of<AddCommentProvider>(context, listen: false)
+          .updateSharedPreferences();
       Navigator.of(context).pop(true);
     }
 

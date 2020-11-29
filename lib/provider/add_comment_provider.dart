@@ -16,11 +16,12 @@ class AddCommentProvider with ChangeNotifier {
     syncDataWithProvider();
   }
 
-  Future addComment(Comments _comment) {
+  Future addComment(Comments _comment) async {
     final Future<Comments> addCommentService =
         AddCommentService().addComment(_comment);
     var add = addCommentService.whenComplete(() => comment.add(_comment));
-    add.whenComplete(() => notifyListeners());
+    add.whenComplete(() => updateSharedPreferences());
+    notifyListeners();
   }
 
   Future updateSharedPreferences() async {
