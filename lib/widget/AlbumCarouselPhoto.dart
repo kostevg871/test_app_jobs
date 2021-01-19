@@ -19,7 +19,6 @@ class AlbumCarouselPhoto extends StatelessWidget {
         height: height,
         viewportFraction: 1.0,
         enlargeCenterPage: false,
-        // autoPlay: false,
       ),
       items: photos
           .map((item) => Container(

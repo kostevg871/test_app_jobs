@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:json_test_project/provider/add_comment_provider.dart';
 import 'package:json_test_project/services/users_service.dart';
+import 'package:json_test_project/shared/add_comment_provider.dart';
 import 'package:provider/provider.dart';
 
 import 'screen/home_screen.dart';
@@ -12,6 +12,7 @@ void main() {
 
 class MyApp extends StatelessWidget {
   final UserService userService = UserService();
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<AddCommentProvider>(

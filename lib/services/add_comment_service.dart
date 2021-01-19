@@ -25,7 +25,6 @@ class AddCommentService {
       headers: {'Content-type': 'application/json; charset=UTF-8'},
     );
     if (response.statusCode == 201) {
-      print(response.body);
       return jsonDecode(response.body);
     } else {
       print("err");

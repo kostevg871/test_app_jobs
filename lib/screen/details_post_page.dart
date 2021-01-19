@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:json_test_project/models/comments.dart';
 import 'package:json_test_project/models/posts.dart';
-import 'package:json_test_project/provider/add_comment_provider.dart';
-import 'package:json_test_project/services/add_comment_service.dart';
+import 'package:json_test_project/shared/add_comment_provider.dart';
 import 'package:json_test_project/widget/details_post_page/custom_flut_button.dart';
 import 'package:json_test_project/widget/user_details_screen/user_tile/comment_tile.dart';
 import 'package:provider/provider.dart';
@@ -88,8 +87,6 @@ class AddCommentScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AddCommentService addCommentService = AddCommentService();
-    final AddCommentProvider addCommentProvider = AddCommentProvider();
     TextEditingController newCommentTitle = new TextEditingController();
     TextEditingController newCommentEmail = new TextEditingController();
     TextEditingController newCommentBody = new TextEditingController();
