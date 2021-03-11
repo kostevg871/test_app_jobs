@@ -1,4 +1,4 @@
-# json_test_project
+# user_info_placeholder
 
 A new Flutter application.
 
